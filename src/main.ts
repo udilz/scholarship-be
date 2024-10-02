@@ -23,7 +23,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // routes
-app.use("/scholarships", scholarshipRouter);
+app.use("/api/v1/scholarships", scholarshipRouter);
 
 // start server
 app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));

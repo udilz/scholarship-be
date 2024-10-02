@@ -1,1 +1,2 @@
-GET http://localhost:6000/scholarships
+### GET All scholarship 
+GET http://localhost:6000/api/v1/scholarships
