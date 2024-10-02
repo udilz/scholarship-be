@@ -1,2 +1,20 @@
 ### GET All scholarship 
 GET http://localhost:6000/api/v1/scholarships
+
+### Adding scholarships data manually
+POST http://localhost:6000/api/v1/scholarships
+Content-Type: application/json
+
+{
+    "name": "PENAWARAN BEASISWA MASTER DEGREE JEPANG-IMF SCHOLARSHIP PROGRAM FOR ASIA (JISPA) PARTNERSHIP TRACK TAHUN AKADEMIK 2025/2026",
+    "description": "Beasiswa Chevening adalah program beasiswa internasional Pemerintah Inggris didanai oleh The Foreign, Commonwealth and Development Office serta organisasi mitra untuk menempuh pendidikan selama satu tahun di Inggris pada program gelar master.",
+    "country": "Inggris",
+    "city": "-",
+    "email": "cheveningsupport@chevening.org",
+    "url_web": "https://www.chevening.org/scholarship/indonesia",
+    "degrees": "Magister/Pasca Sarjana (S2)",
+    "major": "Desain Komunikasi Visual",
+    "funding_type": "full funding",
+    "open_date": "2025-04-06T17:00:00.000Z",
+    "close_date": "2025-05-02T17:00:00.000Z"
+}
