@@ -4,7 +4,7 @@ import ScholarshipServices from "../services/scholarship.services";
 import { IScholarshipData } from "../types/scholarships.type";
 
 const ScholarshipController = {
-   handleGetAllScholarships: async (_req: Request, res: Response) => {
+   handleGetAllScholarships: async (_: Request, res: Response) => {
       const allScholarships = await ScholarshipServices.getAll();
       return res.json({ data: allScholarships });
    },
@@ -88,31 +88,22 @@ const ScholarshipController = {
          });
       }
    },
+
    handleDeleteScholarship: async (req: Request, res: Response) => {
       const scholarshipId = req.params.id;
 
       try {
-         // Check if the scholarship exists before deleting
-         const scholarship = await Scholarship.findById(scholarshipId);
+         const deletedResult = await ScholarshipServices.deleteScholarship(scholarshipId);
 
-         if (!scholarship) {
+         if (!deletedResult) {
             return res.status(404).json({ error: "Scholarship not found" });
          }
 
-         // Delete the scholarship from the database
-         await Scholarship.findByIdAndDelete(scholarshipId);
-
-         // Return success response
-         return res.status(200).json({
-            message: "Scholarship deleted successfully",
-            scholarship_id: scholarshipId,
-         });
+         // Return Success response
+         return res.status(200).json({ message: "Scholarship deleted successfully", data: { _id: deletedResult._id } });
       } catch (error) {
-         // Return server error response in case of any exceptions
-         return res.status(500).json({
-            message: error,
-            error: "Server error",
-         });
+         const typedError = error as Error;
+         return res.status(500).json({ message: typedError.message || "Server error", error: "failed to delete data" });
       }
    },
 };

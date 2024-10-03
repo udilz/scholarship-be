@@ -25,6 +25,23 @@ const ScholarshipRepository = {
          throw new Error("Error creating scholarship in repository");
       }
    },
+
+   findById: async (scholarshipId: string) => {
+      try {
+         return await Scholarship.findById(scholarshipId);
+      } catch (_error) {
+         throw new Error("Error finding scholarship");
+      }
+   },
+
+   deleteScholarship: async (scholarshipId: string) => {
+      // Method to delete scholarship
+      try {
+         return await Scholarship.findByIdAndDelete(scholarshipId);
+      } catch (_error) {
+         throw new Error("Error deleting scholarship in repository");
+      }
+   },
 };
 
 export default ScholarshipRepository;

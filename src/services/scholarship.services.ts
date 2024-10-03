@@ -19,6 +19,18 @@ const ScholarshipServices = {
          throw new Error("Error creating scholarship");
       }
    },
+
+   deleteScholarship: async (scholarshipId: string) => {
+      try {
+         const scholarship = await ScholarshipRepository.findById(scholarshipId);
+         if (!scholarship) {
+            return null;
+         }
+         return await ScholarshipRepository.deleteScholarship(scholarshipId);
+      } catch (_error) {
+         throw new Error("Error deleting scholarship");
+      }
+   },
 };
 
 export default ScholarshipServices;

@@ -13,8 +13,8 @@ Content-Type: application/json
     "email": "cheveningsupport@chevening.org",
     "url_web": "https://www.chevening.org/scholarship/indonesia",
     "degrees": "Magister/Pasca Sarjana (S2)",
-    "major": "Desain Komunikasi Visual",
-    "funding_type": "full funding",
+    "major": "Teknik atau Rekayasa Sipil",
+    "funding_type": "Semi funding",
     "open_date": "2025-04-06T17:00:00.000Z",
     "close_date": "2025-05-02T17:00:00.000Z"
 }
@@ -32,4 +32,4 @@ Content-Type: application/json
 
 
 ### delete scholarship
-DELETE http://localhost:6000/api/v1/scholarships/66fe4313c13fdb00f6a9c7f0
+DELETE http://localhost:6000/api/v1/scholarships/66fe9e9f33617559a214d834
