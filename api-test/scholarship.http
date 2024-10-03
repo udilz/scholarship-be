@@ -18,3 +18,18 @@ Content-Type: application/json
     "open_date": "2025-04-06T17:00:00.000Z",
     "close_date": "2025-05-02T17:00:00.000Z"
 }
+
+### Update Scholarship
+PATCH http://localhost:6000/api/v1/scholarships/66fd44ffd02847d1dde2d016
+Authorization: 123123
+Content-Type: application/json
+
+{
+    "name": "PENAWARAN BEASISWA PASCASARJANA (S2) CHEVENING 2025-2026",
+    "major": "Arsitektur",
+    "funding_type": "Semi funding"
+}
+
+
+### delete scholarship
+DELETE http://localhost:6000/api/v1/scholarships/66fd4edaf1eb0db8f94b576a
