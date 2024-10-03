@@ -24,9 +24,14 @@ const ScholarshipController = {
       ];
 
       // Check for missing required fields
+      // Check that all required fields have been provided.
+      // The required fields are specified in the requiredFields array.
+      // If any of the required fields are missing, return a 400 error with a helpful message.
       for (const field of requiredFields) {
+         // For each required field, check if it exists in the request body
          if (!req.body[field]) {
-            return res.status(400).json({ error: "All fields are required." });
+            // If it doesn't exist, return an error
+            return res.status(400).json({ error: `The ${field} field is required.` });
          }
       }
 
