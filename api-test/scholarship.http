@@ -32,4 +32,4 @@ Content-Type: application/json
 
 
 ### delete scholarship
-DELETE http://localhost:6000/api/v1/scholarships/66fd4edaf1eb0db8f94b576a
+DELETE http://localhost:6000/api/v1/scholarships/66fe4313c13fdb00f6a9c7f0

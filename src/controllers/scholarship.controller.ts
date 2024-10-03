@@ -1,22 +1,47 @@
 import type { Request, Response } from "express";
 import { Scholarship } from "../models/scholarship.schema";
 import ScholarshipServices from "../services/scholarship.services";
+import { IScholarshipData } from "../types/scholarships.type";
 
 const ScholarshipController = {
-   handleGetAllScholarships: async (req: Request, res: Response) => {
+   handleGetAllScholarships: async (_req: Request, res: Response) => {
       const allScholarships = await ScholarshipServices.getAll();
       return res.json({ data: allScholarships });
    },
 
    handleCreateScholarship: async (req: Request, res: Response) => {
-      // method to create new scholarship into the database
-      const createScholarship = new Scholarship(req.body);
-      await createScholarship.save();
+      const requiredFields = [
+         "name",
+         "description",
+         "country",
+         "city",
+         "major",
+         "email",
+         "degrees",
+         "funding_type",
+         "open_date",
+         "close_date",
+      ];
 
-      // return response
-      return res.json({
-         data: req.body,
-      });
+      // Check for missing required fields
+      for (const field of requiredFields) {
+         if (!req.body[field]) {
+            return res.status(400).json({ error: "All fields are required." });
+         }
+      }
+
+      try {
+         const newScholarshipData: IScholarshipData = req.body;
+         // method to create new scholarship into the database
+         const createScholarship = await ScholarshipServices.createScholarship(newScholarshipData);
+
+         // return response
+         return res
+            .status(201)
+            .json({ message: "New Scholarship created successfully", data: { _id: createScholarship._id } });
+      } catch {
+         return res.status(500).json({ error: "Failed to create the scholarship." });
+      }
    },
 
    handleUpdateScholarship: async (req: Request, res: Response) => {
