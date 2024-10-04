@@ -37,13 +37,28 @@ const ScholarshipRepository = {
    // New method for updating a scholarship
    updateScholarship: async (scholarshipId: string, updatedData: IScholarshipData) => {
       try {
+         // Attempt to update the scholarship with the provided updated data
+         // The findByIdAndUpdate() method takes four parameters:
+         // 1. The filter to find the document to update (in this case, the _id field)
+         // 2. The update to apply to the document (in this case, the updatedData object)
+         // 3. The options object, which specifies whether to return the updated document
+         //    (in this case, we set new: true, which means that the method will return the
+         //    updated document instead of the original document)
+         // 4. The omitUndefined option, which specifies that if the updatedData object
+         //    contains a property with an undefined value, that property should be
+         //    ignored and not updated in the database.
          const updatedScholarship = await Scholarship.findOneAndUpdate(
             { _id: scholarshipId },
             { $set: updatedData },
             { new: true, omitUndefined: true },
          );
+         // If the update is successful, return the updated scholarship
          return updatedScholarship;
       } catch (error) {
+         // If the update fails, log the error and rethrow it
+         // This is because we want to make sure the error is handled and logged
+         // in the repository layer, and then rethrow it to the service layer
+         // so that it can be handled by the error handling middleware
          console.log("Error updating scholarship in repository", error);
          throw new Error("Error updating scholarship in repository");
       }
