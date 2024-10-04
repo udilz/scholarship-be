@@ -34,11 +34,27 @@ const ScholarshipRepository = {
       }
    },
 
+   // New method for updating a scholarship
+   updateScholarship: async (scholarshipId: string, updatedData: IScholarshipData) => {
+      try {
+         const updatedScholarship = await Scholarship.findOneAndUpdate(
+            { _id: scholarshipId },
+            { $set: updatedData },
+            { new: true, omitUndefined: true },
+         );
+         return updatedScholarship;
+      } catch (error) {
+         console.log("Error updating scholarship in repository", error);
+         throw new Error("Error updating scholarship in repository");
+      }
+   },
+
    deleteScholarship: async (scholarshipId: string) => {
       // Method to delete scholarship
       try {
          return await Scholarship.findByIdAndDelete(scholarshipId);
-      } catch (_error) {
+      } catch (error) {
+         console.log("Error deleting scholarship in repository", error);
          throw new Error("Error deleting scholarship in repository");
       }
    },

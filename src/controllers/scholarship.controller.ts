@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import { Scholarship } from "../models/scholarship.schema";
 import ScholarshipServices from "../services/scholarship.services";
 import { IScholarshipData } from "../types/scholarships.type";
 
@@ -62,11 +61,8 @@ const ScholarshipController = {
 
       try {
          // business logic to update a scholarship
-         const updatedScholarship = await Scholarship.findOneAndUpdate(
-            { _id: scholarshipId },
-            { $set: req.body },
-            { new: true, omitUndefined: true },
-         );
+         // Call the service to update the scholarship
+         const updatedScholarship = await ScholarshipServices.updateScholarship(scholarshipId, req.body);
 
          if (!updatedScholarship) {
             return res.status(404).json({ message: "Scholarship not found" });

@@ -25,11 +25,11 @@ Authorization: 123123
 Content-Type: application/json
 
 {
-    "name": "PENAWARAN BEASISWA PASCASARJANA (S2) CHEVENING 2025-2026",
-    "major": "Arsitektur",
-    "funding_type": "Semi funding"
+    "name": "PENAWARAN BEASISWA PASCASARJANA (S2) CHEVENING 2025",
+    "major": "Manajemen Properti dan Penilaian",
+    "funding_type": "full funding"
 }
 
 
 ### delete scholarship
-DELETE http://localhost:6000/api/v1/scholarships/66fe9e9f33617559a214d834
+DELETE http://localhost:6000/api/v1/scholarships/66fe5332cc74ddb5085a8a64
