@@ -3,12 +3,14 @@ import dotenv from "dotenv";
 import { errorHandler } from "./interface/middleware/errorHandler";
 import { userRoutes } from "./interface/routes/userRoutes";
 import dbConnect from "./infrastructure/database/config";
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 dbConnect();
 const app = express();
 app.use(express.json());
 app.use(errorHandler);
+app.use(cookieParser());
 app.use("/api", userRoutes);    
 
 app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));
