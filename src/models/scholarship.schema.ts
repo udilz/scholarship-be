@@ -10,6 +10,7 @@ const scholarshipSchema = new Schema({
    email: String,
    url_web: String,
    degrees: String,
+   major: String,
    funding_type: String,
    open_date: Date,
    close_date: Date,
