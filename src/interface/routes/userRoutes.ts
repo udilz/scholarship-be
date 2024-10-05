@@ -22,7 +22,7 @@ router.post("/users/register", async (req, res) => {
         name,
         email,
         password: hashPassword,
-        role: null,
+        role: "users",
         educational_background: null,
         major: null,
         funding_need: null,
@@ -77,3 +77,4 @@ router.post("/users/logout", async(req, res)=>{
 })
 
 export {router as userRoutes};
+
