@@ -4,13 +4,16 @@ import ScholarshipController from "../controllers/scholarship.controller";
 export const scholarshipRouter = express.Router();
 
 // method to get all scholarships
-scholarshipRouter.get("/", ScholarshipController.handleGetAllScholarships);
+scholarshipRouter.get("/getall/", ScholarshipController.handleGetAllScholarships);
+
+// method to get a scholarship
+scholarshipRouter.get("/get/:id", ScholarshipController.handleGetOneScholarship);
 
 // method to create new scholarship
-scholarshipRouter.post("/", ScholarshipController.handleCreateScholarship);
+scholarshipRouter.post("/create/", ScholarshipController.handleCreateScholarship);
 
 // method to update a scholarship
-scholarshipRouter.patch("/:id", ScholarshipController.handleUpdateScholarship);
+scholarshipRouter.patch("/update/:id", ScholarshipController.handleUpdateScholarship);
 
 // method to delete a scholarship
-scholarshipRouter.delete("/:id", ScholarshipController.handleDeleteScholarship);
+scholarshipRouter.delete("/delete/:id", ScholarshipController.handleDeleteScholarship);

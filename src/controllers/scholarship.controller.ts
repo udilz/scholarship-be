@@ -8,6 +8,38 @@ const ScholarshipController = {
       return res.json({ data: allScholarships });
    },
 
+   handleGetOneScholarship: async (req: Request, res: Response) => {
+      // Get the id parameter from the request parameters.
+      // This is a string because that's what Express.js uses
+      // for its request parameters.
+      const { id } = req.params;
+
+      try {
+         // Call the service to get the scholarship details
+         const scholarship = await ScholarshipServices.getOne(id);
+
+         // If no scholarship is found, return 404
+         if (!scholarship) {
+            // Return a 404 Not Found response with a JSON body containing
+            // a message indicating that the scholarship was not found.
+            return res.status(404).json({ message: "Scholarship not found" });
+         }
+
+         // Return the found scholarship details
+         // Return a 200 OK response with a JSON body containing the
+         // found scholarship details.
+         return res.status(200).json({ data: scholarship });
+      } catch (error) {
+         // Handle any unexpected errors
+         // Log the error to the console
+         console.error("Error fetching scholarship:", error);
+         // Return a 500 Internal Server Error response with a JSON body
+         // containing a message indicating that there was an error
+         // fetching the scholarship details.
+         return res.status(500).json({ message: "Error fetching scholarship details" });
+      }
+   },
+
    handleCreateScholarship: async (req: Request, res: Response) => {
       const requiredFields = [
          "name",
@@ -86,7 +118,13 @@ const ScholarshipController = {
    },
 
    handleDeleteScholarship: async (req: Request, res: Response) => {
+      // Get the id parameter from the request parameters.
+      // This is a string because that's what Express.js uses
+      // for its request parameters.
       const scholarshipId = req.params.id;
+      // This will be used to fetch the scholarship details from
+      // the database, and then update it with the new data
+      // provided in the request body.
 
       try {
          const deletedResult = await ScholarshipServices.deleteScholarship(scholarshipId);
