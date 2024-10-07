@@ -3,7 +3,7 @@ import { IUser } from "../types/users.type";
 import bcrypt from 'bcrypt';
 import  jwt from "jsonwebtoken";
 import { Auth } from "../models/auth.schema";
-// import dotenv from "dotenv";
+import config from "../config/config"; 
 
 
 const UsersServices = {
@@ -94,10 +94,8 @@ const UsersServices = {
                email: User.email
             }
                 // Authorization
-            const JWT_ACCESS_SECRET='+0NXAbo9BHgbgVBeCz522MwgDMhWZTMjtj8OqgkE6P0=';
-            const JWT_REFRESH_SECRET='jO4t1WgXk6diBYSBFU4fAdHPKupqoAMAkuDsXuyCP0nYz54e+n2HHNEIXiPIPuXfCqzg/WZnkdLDXAqaHFdUlw==%';
-            const accessToken = jwt.sign(Payload, JWT_ACCESS_SECRET, { expiresIn: "10m" });
-            const refreshToken = jwt.sign(Payload, JWT_REFRESH_SECRET, { expiresIn: "30d" });
+            const accessToken = jwt.sign(Payload, config.JWT_ACCESS_SECRET, { expiresIn: "10m" });
+            const refreshToken = jwt.sign(Payload, config.JWT_REFRESH_SECRET, { expiresIn: "30d" });
 
             const newRefreshToken = new Auth({
                userId: User._id,
