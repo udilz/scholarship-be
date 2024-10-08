@@ -1,8 +1,9 @@
-### GET All scholarships 
-GET http://localhost:6000/api/v1/scholarships/getall
+### GET All scholarship 
+GET http://localhost:6000/api/v1/scholarships/getall/
 
-### GET a scholarship 
-GET http://localhost:6000/api/v1/scholarships/get/67033f5272b40051f136dbf6
+### GET single scholarship
+GET http://localhost:6000/api/v1/scholarships/get/67035e14e0bfd5f566a43ea3
+
 
 ### Adding scholarships data manually
 POST http://localhost:6000/api/v1/scholarships/create
@@ -16,14 +17,14 @@ Content-Type: application/json
     "email": "cheveningsupport@chevening.org",
     "url_web": "https://www.chevening.org/scholarship/indonesia",
     "degrees": "Magister/Pasca Sarjana (S2)",
-    "major": "Teknik atau Rekayasa Sipil",
+    "major": "Testing",
     "funding_type": "Semi funding",
     "open_date": "2025-04-06T17:00:00.000Z",
     "close_date": "2025-05-02T17:00:00.000Z"
 }
 
 ### Update Scholarship
-PATCH http://localhost:6000/api/v1/scholarships/update/66fd44ffd02847d1dde2d016
+PUT http://localhost:6000/api/v1/scholarships/update/66fd44ffd02847d1dde2d016
 Authorization: 123123
 Content-Type: application/json
 
@@ -35,4 +36,4 @@ Content-Type: application/json
 
 
 ### delete scholarship
-DELETE http://localhost:6000/api/v1/scholarships/delete/67033f5272b40051f136dbf6
+    DELETE http://localhost:6000/api/v1/scholarships/delete/67035e14e0bfd5f566a43ea3
