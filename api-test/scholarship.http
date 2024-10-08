@@ -1,8 +1,11 @@
 ### GET All scholarship 
-GET http://localhost:6000/api/v1/scholarships
+GET http://localhost:8000/api/v1/scholarships
+
+### GET All users 
+GET http://localhost:8000/api/v1/users/all
 
 ### Adding scholarships data manually
-POST http://localhost:6000/api/v1/scholarships
+POST http://localhost:8000/api/v1/scholarships
 Content-Type: application/json
 
 {
