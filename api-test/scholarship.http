@@ -1,8 +1,11 @@
-### GET All scholarship 
-GET http://localhost:6000/api/v1/scholarships
+### GET All scholarships 
+GET http://localhost:6000/api/v1/scholarships/getall
+
+### GET a scholarship 
+GET http://localhost:6000/api/v1/scholarships/get/67033f5272b40051f136dbf6
 
 ### Adding scholarships data manually
-POST http://localhost:6000/api/v1/scholarships
+POST http://localhost:6000/api/v1/scholarships/create
 Content-Type: application/json
 
 {
@@ -20,7 +23,7 @@ Content-Type: application/json
 }
 
 ### Update Scholarship
-PATCH http://localhost:6000/api/v1/scholarships/66fd44ffd02847d1dde2d016
+PATCH http://localhost:6000/api/v1/scholarships/update/66fd44ffd02847d1dde2d016
 Authorization: 123123
 Content-Type: application/json
 
@@ -32,4 +35,4 @@ Content-Type: application/json
 
 
 ### delete scholarship
-DELETE http://localhost:6000/api/v1/scholarships/66fe5332cc74ddb5085a8a64
+DELETE http://localhost:6000/api/v1/scholarships/delete/67033f5272b40051f136dbf6
