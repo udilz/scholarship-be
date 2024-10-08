@@ -13,7 +13,7 @@ scholarshipRouter.get("/get/:id", ScholarshipController.handleGetOneScholarship)
 scholarshipRouter.post("/create/", ScholarshipController.handleCreateScholarship);
 
 // method to update a scholarship
-// scholarshipRouter.patch("/update/:id", ScholarshipController.handleUpdateScholarship);
+scholarshipRouter.put("/update/:id", ScholarshipController.handleUpdateScholarship);
 
 // method to delete a scholarship
 scholarshipRouter.delete("/delete/:id", ScholarshipController.handleDeleteScholarship);

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+import config from "../config/config";
 
-dotenv.config();
+
 export default async function dbConnect() {
    return mongoose
-      .connect(process.env.MONGO_URI as string)
+      .connect(config.MONGO_URI as string)
       .then(() => console.log("MongoDB connected"))
       .catch((err) => {
          console.log(err);
