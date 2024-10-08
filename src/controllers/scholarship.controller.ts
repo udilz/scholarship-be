@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import ScholarshipServices from "../services/scholarship.services";
 import { IScholarshipData } from "../types/scholarships.type";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 const ScholarshipController = {
    handleGetAllScholarships: async (_: Request, res: Response) => {
@@ -81,88 +81,88 @@ const ScholarshipController = {
       }
    },
 
-   handleUpdateScholarship: async (req: Request, res: Response) => {
-      const { accessToken, refreshToken } = req.cookies;
-      const scholarshipId = req.params.id;
+   // handleUpdateScholarship: async (req: Request, res: Response) => {
+   //    const { accessToken, refreshToken } = req.cookies;
+   //    const scholarshipId = req.params.id;
 
-      // Check if accessToken is present
-      if (!accessToken) {
-         // Check if refreshToken is present for renewal
-         if (!refreshToken) {
-            return res.status(401).json({ message: "Need to relogin" });
-         }
+   //    // Check if accessToken is present
+   //    if (!accessToken) {
+   //       // Check if refreshToken is present for renewal
+   //       if (!refreshToken) {
+   //          return res.status(401).json({ message: "Need to relogin" });
+   //       }
 
-         try {
-            // Verify the refresh token
-            jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string);
-            const activeRefreshToken = await Auth.findOne({ token: refreshToken });
+   //       try {
+   //          // Verify the refresh token
+   //          jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string);
+   //          const activeRefreshToken = await Auth.findOne({ token: refreshToken });
 
-            if (!activeRefreshToken) {
-               return res.status(401).json({ message: "Invalid refresh token. Please relogin." });
-            }
+   //          if (!activeRefreshToken) {
+   //             return res.status(401).json({ message: "Invalid refresh token. Please relogin." });
+   //          }
 
-            // Decode refresh token to get user data
-            const payload = jwt.decode(refreshToken) as { id: string; name: string; email: string };
-            if (!payload) {
-               return res.status(401).json({ message: "Invalid token payload. Please relogin." });
-            }
+   //          // Decode refresh token to get user data
+   //          const payload = jwt.decode(refreshToken) as { id: string; name: string; email: string };
+   //          if (!payload) {
+   //             return res.status(401).json({ message: "Invalid token payload. Please relogin." });
+   //          }
 
-            // Generate new access token
-            const newAccessToken = jwt.sign(
-               {
-                  id: payload.id,
-                  name: payload.name,
-                  email: payload.email,
-               },
-               process.env.JWT_ACCESS_SECRET as string,
-               { expiresIn: 300 }, // Token valid for 5 minutes
-            );
+   //          // Generate new access token
+   //          const newAccessToken = jwt.sign(
+   //             {
+   //                id: payload.id,
+   //                name: payload.name,
+   //                email: payload.email,
+   //             },
+   //             process.env.JWT_ACCESS_SECRET as string,
+   //             { expiresIn: 300 }, // Token valid for 5 minutes
+   //          );
 
-            // Set the new access token in cookies and proceed with update logic
-            res.cookie("accessToken", newAccessToken, { httpOnly: true });
-         } catch (_error) {
-            return res.status(401).json({ message: "Token verification failed. Need to relogin." });
-         }
-      } else {
-         try {
-            // Verify access token
-            jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET as string);
-         } catch (_error) {
-            return res.status(401).json({ message: "Invalid access token. Please relogin." });
-         }
-      }
+   //          // Set the new access token in cookies and proceed with update logic
+   //          res.cookie("accessToken", newAccessToken, { httpOnly: true });
+   //       } catch (_error) {
+   //          return res.status(401).json({ message: "Token verification failed. Need to relogin." });
+   //       }
+   //    } else {
+   //       try {
+   //          // Verify access token
+   //          jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET as string);
+   //       } catch (_error) {
+   //          return res.status(401).json({ message: "Invalid access token. Please relogin." });
+   //       }
+   //    }
 
-      try {
-         // business logic to update a scholarship
-         // Call the service to update the scholarship
-         // The service will handle the business logic of updating the scholarship
-         // The service will return the updated scholarship
-         // If the service returns null, that means the scholarship was not found
-         const updatedScholarship = await ScholarshipServices.updateScholarship(
-            scholarshipId, // the id of the scholarship to update
-            req.body, // the updated data to apply to the scholarship
-         );
+   //    try {
+   //       // business logic to update a scholarship
+   //       // Call the service to update the scholarship
+   //       // The service will handle the business logic of updating the scholarship
+   //       // The service will return the updated scholarship
+   //       // If the service returns null, that means the scholarship was not found
+   //       const updatedScholarship = await ScholarshipServices.updateScholarship(
+   //          scholarshipId, // the id of the scholarship to update
+   //          req.body, // the updated data to apply to the scholarship
+   //       );
 
-         if (!updatedScholarship) {
-            return res.status(404).json({ message: "Scholarship not found" });
-         }
+   //       if (!updatedScholarship) {
+   //          return res.status(404).json({ message: "Scholarship not found" });
+   //       }
 
-         // return response
-         return res.json({ message: "Scholarship updated successfully", updatedScholarship });
-      } catch (error) {
-         // We want to return a 500 error with a JSON body containing information about the error, but we need to be careful because the error object might not be an instance of Error.  This is because the error object might be an arbitrary object that was thrown by the code in the try block, or it might be a string, or it might be null, or it might be undefined, or it might be something else entirely.
+   //       // return response
+   //       return res.json({ message: "Scholarship updated successfully", updatedScholarship });
+   //    } catch (error) {
+   //       // We want to return a 500 error with a JSON body containing information about the error, but we need to be careful because the error object might not be an instance of Error.  This is because the error object might be an arbitrary object that was thrown by the code in the try block, or it might be a string, or it might be null, or it might be undefined, or it might be something else entirely.
 
-         // So, we first check if the error object is an instance of Error.  If it is, then we know that it has a message property, and we can return a 500 error with a JSON body containing that message.
+   //       // So, we first check if the error object is an instance of Error.  If it is, then we know that it has a message property, and we can return a 500 error with a JSON body containing that message.
 
-         // If the error object is not an instance of Error, then we don't know what properties it has, so we can't return a 500 error with a JSON body containing information about the error.  In this case, we just return a 500 error with a generic error message.
+   //       // If the error object is not an instance of Error, then we don't know what properties it has, so we can't return a 500 error with a JSON body containing information about the error.  In this case, we just return a 500 error with a generic error message.
 
-         // Narrow the type of error
-         return res.status(500).json({
-            error: "Server error",
-            details: error instanceof Error ? error.message : "An unknown error occurred",
-         });
-      }
-   },
+   //       // Narrow the type of error
+   //       return res.status(500).json({
+   //          error: "Server error",
+   //          details: error instanceof Error ? error.message : "An unknown error occurred",
+   //       });
+   //    }
+   // },
 
    handleDeleteScholarship: async (req: Request, res: Response) => {
       // Get the id parameter from the request parameters.
