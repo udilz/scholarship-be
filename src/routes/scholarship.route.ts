@@ -16,4 +16,10 @@ scholarshipRouter.post("/create/", ScholarshipController.handleCreateScholarship
 scholarshipRouter.put("/update/:id", ScholarshipController.handleUpdateScholarship);
 
 // method to delete a scholarship
+<<<<<<< HEAD
 scholarshipRouter.delete("/delete/:id", ScholarshipController.handleDeleteScholarship);
+=======
+scholarshipRouter.delete("/:id", ScholarshipController.handleDeleteScholarship);
+
+scholarshipRouter.post("/search", ScholarshipController.handleGetData);
+>>>>>>> 4309907 (update scholarship response with profile and push to AI prompt)

@@ -73,6 +73,26 @@ const ScholarshipRepository = {
          throw new Error("Error deleting scholarship in repository");
       }
    },
+   searchScholarship: async ( country: string, major: string, degrees: string, funding_type: string ) => {
+      try {
+         const query: { country?: string; major?: string; degrees?: string; funding_type?: string } = {}
+      if (country) {
+         query.country = country;
+      }
+      if (major) {
+         query.major = major;
+      }
+      if (degrees) {
+         query.degrees = degrees;
+      }
+      if (funding_type) {
+         query.funding_type = funding_type;
+      }
+         return await Scholarship.find(query);
+      } catch (_error) {
+         throw new Error("Error finding scholarship");
+      }
+   }
 };
 
 export default ScholarshipRepository;
