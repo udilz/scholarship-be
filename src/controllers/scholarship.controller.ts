@@ -13,6 +13,7 @@ const ScholarshipController = {
    handleCreateScholarship: async (req: Request, res: Response) => {
       const requiredFields = [
          "name",
+         "university",
          "description",
          "country",
          "city",

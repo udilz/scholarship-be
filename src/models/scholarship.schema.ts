@@ -4,6 +4,7 @@ import { Schema, model } from "mongoose";
 // schema
 const scholarshipSchema = new Schema({
    name: String,
+   university: String,
    description: String,
    country: String,
    city: String,
