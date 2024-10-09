@@ -1,8 +1,8 @@
-import path from "path";
+// import path from "path";
 import dotenv from "dotenv";
 
 dotenv.config();
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+// dotenv.config({ path: path.resolve(__dirname, "../config/config.env") });
 
 interface ENV {
    NODE_ENV: string | undefined;
@@ -31,7 +31,7 @@ const getConfig = (): ENV => {
 };
 
 const getSanitzedConfig = (config: ENV): Config => {
-   console.log(config);
+   // console.log(config);
    for (const [key, value] of Object.entries(config)) {
       if (value === undefined) {
          throw new Error(`Missing key ${key} in config.env`);
