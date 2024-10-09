@@ -3,6 +3,7 @@ import ScholarshipServices from "../services/scholarship.services";
 import { IScholarshipData } from "../types/scholarships.type";
 import OpenAI from "openai";
 import config from "../config/config"; 
+import { ChatCompletionMessageParam } from "../types/openAI.type";
 
 const ScholarshipController = {
    handleGetAllScholarships: async (_: Request, res: Response) => {
@@ -113,18 +114,6 @@ const ScholarshipController = {
           const openai = new OpenAI({
               apiKey: config.OPENAI_API_KEY,
           });
-          interface MessageContent {
-            type:string;
-            text:string;
-         }
-         interface Message {
-            role: "system" | "user";
-            content:MessageContent[];
-         }
-         interface ChatCompletionMessageParam {
-            role: "system" | "user" | "assistant"; // Define possible roles
-            content: string; // Content of the message
-         }
           const mResponse = { userProfile: userProfile, scholarships: allScholarships };
   
           // Define the messages correctly without the unnecessary MessageContent structure.
@@ -151,8 +140,15 @@ const ScholarshipController = {
               frequency_penalty: 0,
               presence_penalty: 0,
           });
+
+          const hasilAI = [{
+            "rekomendasi": response.choices[0].message.content,
+            "listBeasiswa": mResponse.scholarships
+          }];
+          console.log(hasilAI);
+
   
-          return res.status(200).json(response);
+          return res.status(200).json(mResponse);
       } catch (error) {
           console.error(error);
           return res.status(500).json({ error: "An error occurred while processing your request." });

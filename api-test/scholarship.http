@@ -36,3 +36,15 @@ Content-Type: application/json
 
 ### delete scholarship
 DELETE http://localhost:6000/api/v1/scholarships/66fe5332cc74ddb5085a8a64
+
+
+### Find Scholarship
+POST http://localhost:8000/api/v1/scholarships/search
+Content-Type: application/json
+{
+    "email": "tes@gmail.com",
+    "country": "indonesia",
+    "major": null,
+    "degrees": null,
+    "funding_type": null
+}
