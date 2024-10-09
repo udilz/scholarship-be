@@ -1,6 +1,8 @@
-import type { Request, Response } from "express";
+import { type Request, type Response } from "express";
 import ScholarshipServices from "../services/scholarship.services";
 import { IScholarshipData } from "../types/scholarships.type";
+import OpenAI from "openai";
+import config from "../config/config"; 
 
 const ScholarshipController = {
    handleGetAllScholarships: async (_: Request, res: Response) => {
@@ -100,6 +102,62 @@ const ScholarshipController = {
       } catch (error) {
          const typedError = error as Error;
          return res.status(500).json({ message: typedError.message || "Server error", error: "failed to delete data" });
+      }
+   },
+   handleGetData: async (req: Request, res: Response) => {
+      try {
+         const { country, major, degrees, funding_type, email } = req.body;
+         const allScholarships = await ScholarshipServices.getScholarshipByData(country, major, degrees, funding_type);
+         const userProfile = await ScholarshipServices.getUserProfile(email);
+         const openai = new OpenAI({
+            apiKey: config.OPENAI_API_KEY,
+          });
+         const mResponse = {userProfile:userProfile, scholarships:allScholarships};
+
+         const listProgram = mResponse.scholarships.map((scholarship) => {
+            // console.log(scholarship);
+            return '{"role":"user","content":"Analyze the suitability of your profile to this scholarship program PROFILE: ' + JSON.stringify(mResponse.userProfile) + ' SCHOLARSHIP: ' + JSON.stringify(scholarship) + '"}';
+         })
+         console.log(listProgram);
+         console.log(mResponse);
+         // const response = await openai.chat.completions.create({
+         //    model: "gpt-4o-mini",
+         //    messages: [
+         //      {
+         //        "role": "system",
+         //        "content": [
+         //          {
+         //            "text": "You are an expert education consultant and good at viewing student profiles to get scholarships:\n\nIMPORTANT\nthe output should be only valid JSON with the following keys:\n- relevancy: percentage\n- shortDescription: string\n- pros and cons analysis\n\nIMPORTANT\nINPUT SCHOLARSHIP LIST IN JSON FORMAT",
+         //            "type": "text"
+         //          }
+         //        ]
+         //      },
+         //    //   {
+         //    //    "role": "user",
+         //    //    "content": [
+         //    //      {
+         //    //        "type": "text",
+         //    //        "text": "Analyze the suitability of your profile to this scholarship program PROFILE: " + JSON.stringify(mResponse.userProfile) + " SCHOLARSHIP: " + JSON.stringify(mResponse.scholarships)
+         //    //      }
+         //    //    ]
+         //    //  },
+
+         //    ],
+         //    temperature: 1,
+         //    max_tokens: 2048,
+         //    top_p: 1,
+         //    frequency_penalty: 0,
+         //    presence_penalty: 0,
+         //    response_format: {   
+         //      "type": "text"
+         //    },
+         //  });
+          
+          
+         return res.status(200).json(mResponse);
+      } catch (error) {
+         console.error("Error fetching scholarships in controller", error);
+         return res.status(500).json({ message: "Error fetching scholarships" });
       }
    },
 };

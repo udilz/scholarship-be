@@ -10,6 +10,7 @@ interface ENV {
     MONGO_URI: string | undefined;
     JWT_ACCESS_SECRET: string | undefined;
     JWT_REFRESH_SECRET: string | undefined;
+    OPENAI_API_KEY: string | undefined;
 
   }
   
@@ -19,6 +20,7 @@ interface ENV {
     MONGO_URI: string;
     JWT_ACCESS_SECRET: string;
     JWT_REFRESH_SECRET: string;
+    OPENAI_API_KEY: string;
   }
   
   const getConfig = (): ENV => {
@@ -27,7 +29,8 @@ interface ENV {
       PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
       MONGO_URI: process.env.MONGO_URI,
       JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
-      JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET
+      JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY
     };
   };
 
