@@ -33,7 +33,7 @@ importers:
         specifier: ^8.6.2
         version: 8.6.3
       openai:
-        specifier: ^4.65.0
+        specifier: ^4.66.1
         version: 4.66.1
     devDependencies:
       '@eslint/js':
