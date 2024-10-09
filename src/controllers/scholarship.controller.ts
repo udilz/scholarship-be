@@ -98,6 +98,7 @@ const ScholarshipController = {
 
       const requiredFields = [
          "name",
+         "university",
          "description",
          "country",
          "city",
