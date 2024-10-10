@@ -159,7 +159,7 @@ const ScholarshipController = {
             }];
             return res.status(200).json(hasilAI);
             }catch (error) {
-            return res.status(400).json({ message: "Invalid response from OpenAI API" });
+            return res.status(400).json({ message: `Invalid response from OpenAI API: ${error}` });
          }
          // const hasilAI = [{
          //    "rekomendasi": response.choices[0].message.content,
