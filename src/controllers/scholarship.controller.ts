@@ -119,7 +119,7 @@ const ScholarshipController = {
           // Define the messages correctly without the unnecessary MessageContent structure.
           const messages: ChatCompletionMessageParam[] = [{
               role: "system",
-              content: "You are an expert education consultant and good at viewing student profiles to get scholarships:\n\nIMPORTANT\nthe output should be only valid JSON with the following keys:\n- relevancy: percentage\n- shortDescription: string\n- pros and cons analysis\n\nIMPORTANT\nINPUT SCHOLARSHIP LIST IN JSON FORMAT",
+              content: "You are an expert education consultant and good at viewing student profiles to get scholarships:\n\nIMPORTANT\nTHE OUTPUT SHOULD BE ONLY VALID JSON WITH THE FOLLOWING KEYS:\n- RELEVANCY: percentage\n- shortDescription: string\n- pros and cons analysis\n\nIMPORTANT\nINPUT SCHOLARSHIP LIST IN JSON FORMAT",
           }];
   
           // Using just a single string for user messages
@@ -140,15 +140,36 @@ const ScholarshipController = {
               frequency_penalty: 0,
               presence_penalty: 0,
           });
-
-          const hasilAI = [{
-            "rekomendasi": response.choices[0].message.content,
-            "listBeasiswa": mResponse.scholarships
-          }];
-         //  console.log(hasilAI);
+         if (!response.choices || response.choices.length === 0) {
+               return res.status(400).json({ message: "Invalid response from OpenAI API" });
+         }
+         if (!response.choices[0].message) {
+            return res.status(400).json({ message: "Invalid response from OpenAI API" });
+         }
+         const rekomendasiAI = response.choices[0].message.content;
+         if (!rekomendasiAI) {
+            return res.status(400).json({ message: "Invalid response from OpenAI API" });
+         }
+         const cleanRekomendasiAI = rekomendasiAI.replace(/(\r\n|\n|\r)/gm, "");
+         try {
+            const dataRekomendasi = JSON.parse(cleanRekomendasiAI);
+            const hasilAI = [{
+               "rekomendasi": dataRekomendasi,
+               "listBeasiswa": mResponse.scholarships
+            }];
+            return res.status(200).json(hasilAI);
+            }catch (error) {
+            return res.status(400).json({ message: "Invalid response from OpenAI API" });
+         }
+         // const hasilAI = [{
+         //    "rekomendasi": response.choices[0].message.content,
+         //    "listBeasiswa": mResponse.scholarships
+         // }];
+         // return res.status(200).json(hasilAI);
+      //  console.log(hasilAI);
 
   
-          return res.status(200).json(hasilAI);
+          
       } catch (error) {
           console.error(error);
           return res.status(500).json({ error: "An error occurred while processing your request." });
