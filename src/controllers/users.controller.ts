@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import UsersServices from "../services/users.services";
 import { IUser } from "../types/users.type";
-
+import bcrypt from 'bcrypt';
 
 const UserController = {
     handleGetAllUser: async (_: Request, res: Response) => {
@@ -49,6 +49,8 @@ const UserController = {
        }
        try {
           const newUser: IUser = req.body;
+         //  console.log(newUser);
+          req.body.password = await bcrypt.hash(newUser.password, 10);
           const createUser = await UsersServices.createUser(newUser);
           return res
              .status(201)
