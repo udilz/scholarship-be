@@ -1,0 +1,56 @@
+GET http://localhost:8000/api/v1/scholarships/getall/
+
+### GET single scholarship
+GET http://localhost:8000/api/v1/scholarships/get/67035e14e0bfd5f566a43ea3
+
+### GET All users 
+GET http://localhost:8000/api/v1/users/all
+
+### Adding scholarships data manually
+POST http://localhost:8000/api/v1/scholarships/create
+Content-Type: application/json
+
+{
+    "name": "PENAWARAN BEASISWA MASTER DEGREE JEPANG-IMF SCHOLARSHIP PROGRAM FOR ASIA (JISPA) PARTNERSHIP TRACK TAHUN AKADEMIK 2025/2026",
+    "description": "Beasiswa Chevening adalah program beasiswa internasional Pemerintah Inggris didanai oleh The Foreign, Commonwealth and Development Office serta organisasi mitra untuk menempuh pendidikan selama satu tahun di Inggris pada program gelar master.",
+    "country": "Inggris",
+    "city": "-",
+    "email": "cheveningsupport@chevening.org",
+    "url_web": "https://www.chevening.org/scholarship/indonesia",
+    "degrees": "Magister/Pasca Sarjana (S2)",
+    "major": "Testing",
+    "funding_type": "Semi funding",
+    "open_date": "2025-04-06T17:00:00.000Z",
+    "close_date": "2025-05-02T17:00:00.000Z"
+}
+
+### Update Scholarship
+PUT http://localhost:8000/api/v1/scholarships/update/66fd44ffd02847d1dde2d016
+Authorization: 123123
+Content-Type: application/json
+
+{
+    "name": "PENAWARAN BEASISWA PASCASARJANA (S2) CHEVENING 2025",
+    "major": "Manajemen Properti dan Penilaian",
+    "funding_type": "full funding"
+}
+
+
+
+### DELETE Scholarship
+    DELETE http://localhost:8000/api/v1/scholarships/67035e14e0bfd5f566a43ea3
+
+
+
+
+### Find Scholarship
+POST http://localhost:8000/api/v1/scholarships/search
+Content-Type: application/json
+{
+    "email": "tes@gmail.com",
+    "country": "indonesia",
+    "major": null,
+    "degrees": null,
+    "funding_type": null
+}
+
