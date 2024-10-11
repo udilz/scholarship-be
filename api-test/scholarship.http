@@ -36,14 +36,21 @@ Content-Type: application/json
 }
 
 
-<<<<<<< HEAD
+
 ### DELETE Scholarship
-DELETE http://localhost:6000/api/v1/scholarships/delete/67035e14e0bfd5f566a43ea3
-=======
-### delete scholarship
-<<<<<<< HEAD
-    DELETE http://localhost:8000/api/v1/scholarships/delete/67035e14e0bfd5f566a43ea3
-=======
-    DELETE http://localhost:8000/api/v1/scholarships/delete/67035e14e0bfd5f566a43ea3
->>>>>>> 92e6234 (fixing refresh and access Token naming)
->>>>>>> fix-conflicts
+    DELETE http://localhost:8000/api/v1/scholarships/67035e14e0bfd5f566a43ea3
+
+
+
+
+### Find Scholarship
+POST http://localhost:8000/api/v1/scholarships/search
+Content-Type: application/json
+{
+    "email": "tes@gmail.com",
+    "country": "indonesia",
+    "major": null,
+    "degrees": null,
+    "funding_type": null
+}
+
