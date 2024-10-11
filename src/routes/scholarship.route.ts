@@ -16,4 +16,7 @@ scholarshipRouter.post("/create/", ScholarshipController.handleCreateScholarship
 scholarshipRouter.put("/update/:id", ScholarshipController.handleUpdateScholarship);
 
 // method to delete a scholarship
-scholarshipRouter.delete("/delete/:id", ScholarshipController.handleDeleteScholarship);
+scholarshipRouter.delete("/:id", ScholarshipController.handleDeleteScholarship);
+
+//  method to search
+scholarshipRouter.post("/search", ScholarshipController.handleGetData);

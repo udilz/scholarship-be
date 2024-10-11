@@ -5,6 +5,7 @@ namespace NodeJS {
       MONGO_URI: string;
       JWT_ACCESS_SECRET: string;
       JWT_REFRESH_SECRET: string;
+      OPENAI_API_KEY: string;
     }
   }
   

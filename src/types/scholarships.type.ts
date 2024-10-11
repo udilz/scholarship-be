@@ -1,5 +1,6 @@
 export interface IScholarshipData {
    name: string;
+   university: string;
    description: string;
    country: string;
    city: string;
