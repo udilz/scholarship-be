@@ -119,7 +119,9 @@ const ScholarshipController = {
           // Define the messages correctly without the unnecessary MessageContent structure.
           const messages: ChatCompletionMessageParam[] = [{
               role: "system",
-              content: "You are an expert education consultant and good at viewing student profiles to get scholarships:\n\nIMPORTANT\nTHE OUTPUT SHOULD BE ONLY VALID JSON WITH THE FOLLOWING KEYS:\n- RELEVANCY: percentage\n- shortDescription: string\n- pros and cons analysis\n\nIMPORTANT\nINPUT SCHOLARSHIP LIST IN JSON FORMAT",
+              content: "You are an expert education consultant and good at viewing student profiles to get scholarships:\n\nIMPORTANT\nthe output should be only valid JSON with the following keys:\n- relevancy: percentage\n- shortDescription: string\n- pros: string\n- cons: string\n- scholarshipProgam: string\n\nIMPORTANT\nINPUT SCHOLARSHIP LIST IN JSON FORMAT"
+
+            //   content: "You are an expert education consultant and good at viewing student profiles to get scholarships:\n\nIMPORTANT\nTHE OUTPUT SHOULD BE ONLY VALID JSON WITH THE FOLLOWING KEYS:\n- RELEVANCY: percentage\n- shortDescription: string\n- pros and cons analysis\n\nIMPORTANT\nINPUT SCHOLARSHIP LIST IN JSON FORMAT",
           }];
   
           // Using just a single string for user messages
