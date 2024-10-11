@@ -12,6 +12,19 @@ const ScholarshipServices = {
       }
    },
 
+   getOne: async (scholarshipId: string) => {
+      try {
+         // Fetch the scholarship by ID
+         const scholarship = await ScholarshipRepository.findById(scholarshipId);
+
+         // Return the scholarship or null if not found
+         return scholarship;
+      } catch (error) {
+         console.log("Error fetching scholarship in service", error);
+         throw new Error("Error fetching scholarship");
+      }
+   },
+
    createScholarship: async (newScholarshipData: IScholarshipData) => {
       try {
          return await ScholarshipRepository.createScholarship(newScholarshipData);
