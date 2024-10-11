@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { scholarshipRouter } from "./routes/scholarship.route";
 import { userRouter } from "./routes/users.route";
 import config from "./config/config";
+// dotenv.config();
 
 const app = express();
 

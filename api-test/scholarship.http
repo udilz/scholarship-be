@@ -1,4 +1,3 @@
-### GET All scholarship 
 GET http://localhost:8000/api/v1/scholarships/getall/
 
 ### GET single scholarship
@@ -8,7 +7,7 @@ GET http://localhost:8000/api/v1/scholarships/get/67035e14e0bfd5f566a43ea3
 GET http://localhost:8000/api/v1/users/all
 
 ### Adding scholarships data manually
-POST http://localhost:8000/api/v1/scholarships
+POST http://localhost:8000/api/v1/scholarships/create
 Content-Type: application/json
 
 {
@@ -37,5 +36,14 @@ Content-Type: application/json
 }
 
 
+<<<<<<< HEAD
+### DELETE Scholarship
+DELETE http://localhost:6000/api/v1/scholarships/delete/67035e14e0bfd5f566a43ea3
+=======
 ### delete scholarship
+<<<<<<< HEAD
     DELETE http://localhost:8000/api/v1/scholarships/delete/67035e14e0bfd5f566a43ea3
+=======
+    DELETE http://localhost:8000/api/v1/scholarships/delete/67035e14e0bfd5f566a43ea3
+>>>>>>> 92e6234 (fixing refresh and access Token naming)
+>>>>>>> fix-conflicts
