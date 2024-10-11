@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { Auth } from "../models/auth.schema";
 import OpenAI from "openai";
 import config from "../config/config";
+import { ChatCompletionMessageParam } from "../types/openAI.type";
 
 const ScholarshipController = {
    handleGetAllScholarships: async (_: Request, res: Response) => {
@@ -94,7 +95,7 @@ const ScholarshipController = {
    },
 
    handleCreateScholarship: async (req: Request, res: Response) => {
-      const { AccessToken, RefreshToken } = req.cookies;
+      const { accessToken, refreshToken } = req.cookies;
 
       const requiredFields = [
          "name",
@@ -110,23 +111,23 @@ const ScholarshipController = {
          "close_date",
       ];
       // Check if accessToken is present
-      if (!AccessToken) {
+      if (!accessToken) {
          // Check if refreshToken is present for renewal
-         if (!RefreshToken) {
+         if (!refreshToken) {
             return res.status(401).json({ message: "Need to relogin" });
          }
 
          try {
             // Verify the refresh token
-            jwt.verify(RefreshToken, process.env.JWT_REFRESH_SECRET as string);
-            const activeRefreshToken = await Auth.findOne({ token: RefreshToken });
+            jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string);
+            const activeRefreshToken = await Auth.findOne({ token: refreshToken });
 
             if (!activeRefreshToken) {
                return res.status(401).json({ message: "Invalid refresh token. Please relogin." });
             }
 
             // Decode refresh token to get user data
-            const payload = jwt.decode(RefreshToken) as { id: string; name: string; email: string };
+            const payload = jwt.decode(refreshToken) as { id: string; name: string; email: string };
             if (!payload) {
                return res.status(401).json({ message: "Invalid token payload. Please relogin." });
             }
@@ -143,14 +144,14 @@ const ScholarshipController = {
             );
 
             // Set the new access token in cookies and proceed with update logic
-            res.cookie("AccessToken", newAccessToken, { httpOnly: true });
+            res.cookie("accessToken", newAccessToken, { httpOnly: true });
          } catch (_error) {
             return res.status(401).json({ message: "Token verification failed. Need to relogin." });
          }
       } else {
          try {
             // Verify access token
-            jwt.verify(AccessToken, process.env.JWT_ACCESS_SECRET as string);
+            jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET as string);
          } catch (_error) {
             return res.status(401).json({ message: "Invalid access token. Please relogin." });
          }
@@ -306,55 +307,69 @@ const ScholarshipController = {
          });
          const mResponse = { userProfile: userProfile, scholarships: allScholarships };
 
-         const listProgram = mResponse.scholarships.map((scholarship) => {
-            // console.log(scholarship);
-            return (
-               '{"role":"user","content":"Analyze the suitability of your profile to this scholarship program PROFILE: ' +
-               JSON.stringify(mResponse.userProfile) +
-               " SCHOLARSHIP: " +
-               JSON.stringify(scholarship) +
-               '"}'
-            );
+         // Define the messages correctly without the unnecessary MessageContent structure.
+         const messages: ChatCompletionMessageParam[] = [
+            {
+               role: "system",
+               content:
+                  "You are an expert education consultant and good at viewing student profiles to get scholarships:\n\nIMPORTANT\nthe output should be only valid JSON with the following keys:\n- relevancy: percentage\n- shortDescription: string\n- pros: string\n- cons: string\n- scholarshipProgam: string\n\nIMPORTANT\nINPUT SCHOLARSHIP LIST IN JSON FORMAT",
+
+               //   content: "You are an expert education consultant and good at viewing student profiles to get scholarships:\n\nIMPORTANT\nTHE OUTPUT SHOULD BE ONLY VALID JSON WITH THE FOLLOWING KEYS:\n- RELEVANCY: percentage\n- shortDescription: string\n- pros and cons analysis\n\nIMPORTANT\nINPUT SCHOLARSHIP LIST IN JSON FORMAT",
+            },
+         ];
+
+         // Using just a single string for user messages
+         mResponse.scholarships.forEach((scholarship) => {
+            messages.push({
+               role: "user",
+               content: `{"type": "text", "text": "Analyze the suitability of your profile to this scholarship program PROFILE: ${JSON.stringify(
+                  mResponse.userProfile,
+               )} SCHOLARSHIP: ${JSON.stringify(scholarship)}"}`,
+            });
          });
-         console.log(listProgram);
-         console.log(mResponse);
-         // const response = await openai.chat.completions.create({
-         //    model: "gpt-4o-mini",
-         //    messages: [
-         //      {
-         //        "role": "system",
-         //        "content": [
-         //          {
-         //            "text": "You are an expert education consultant and good at viewing student profiles to get scholarships:\n\nIMPORTANT\nthe output should be only valid JSON with the following keys:\n- relevancy: percentage\n- shortDescription: string\n- pros and cons analysis\n\nIMPORTANT\nINPUT SCHOLARSHIP LIST IN JSON FORMAT",
-         //            "type": "text"
-         //          }
-         //        ]
-         //      },
-         //    //   {
-         //    //    "role": "user",
-         //    //    "content": [
-         //    //      {
-         //    //        "type": "text",
-         //    //        "text": "Analyze the suitability of your profile to this scholarship program PROFILE: " + JSON.stringify(mResponse.userProfile) + " SCHOLARSHIP: " + JSON.stringify(mResponse.scholarships)
-         //    //      }
-         //    //    ]
-         //    //  },
 
-         //    ],
-         //    temperature: 1,
-         //    max_tokens: 2048,
-         //    top_p: 1,
-         //    frequency_penalty: 0,
-         //    presence_penalty: 0,
-         //    response_format: {
-         //      "type": "text"
-         //    },
-         //  });
-
-         return res.status(200).json(mResponse);
+         // Call the OpenAI API with the prepared messages
+         const response = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: messages,
+            temperature: 1,
+            max_tokens: 2048,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+         });
+         if (!response.choices || response.choices.length === 0) {
+            return res.status(400).json({ message: "Invalid response from OpenAI API" });
+         }
+         if (!response.choices[0].message) {
+            return res.status(400).json({ message: "Invalid response from OpenAI API" });
+         }
+         const rekomendasiAI = response.choices[0].message.content;
+         if (!rekomendasiAI) {
+            return res.status(400).json({ message: "Invalid response from OpenAI API" });
+         }
+         const cleanRekomendasiAI = rekomendasiAI.replace(/(\r\n|\n|\r)/gm, "");
+         try {
+            const dataRekomendasi = JSON.parse(cleanRekomendasiAI);
+            const hasilAI = [
+               {
+                  rekomendasi: dataRekomendasi,
+                  listBeasiswa: mResponse.scholarships,
+               },
+            ];
+            return res.status(200).json(hasilAI);
+         } catch (error) {
+            return res.status(400).json({ message: `Invalid response from OpenAI API: ${error}` });
+         }
+         // const hasilAI = [{
+         //    "rekomendasi": response.choices[0].message.content,
+         //    "listBeasiswa": mResponse.scholarships
+         // }];
+         // return res.status(200).json(hasilAI);
+         //  console.log(hasilAI);
       } catch (error) {
-         console.error("Error fetching scholarships in controller", error);
-         return res.status(500).json({ message: "Error fetching scholarships" });
+         console.error(error);
+         return res.status(500).json({ error: "An error occurred while processing your request." });
       }
    },
 };

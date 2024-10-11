@@ -1,4 +1,5 @@
 ### GET All scholarship 
+<<<<<<< HEAD
 GET http://localhost:6000/api/v1/scholarships/getall/
 
 ### GET single scholarship
@@ -7,6 +8,18 @@ GET http://localhost:6000/api/v1/scholarships/get/67035e14e0bfd5f566a43ea3
 
 ### Adding scholarships data manually
 POST http://localhost:6000/api/v1/scholarships/create
+=======
+GET http://localhost:8000/api/v1/scholarships/getall/
+
+### GET single scholarship
+GET http://localhost:8000/api/v1/scholarships/get/67035e14e0bfd5f566a43ea3
+
+### GET All users 
+GET http://localhost:8000/api/v1/users/all
+
+### Adding scholarships data manually
+POST http://localhost:8000/api/v1/scholarships
+>>>>>>> 92e6234 (fixing refresh and access Token naming)
 Content-Type: application/json
 
 {
@@ -24,7 +37,7 @@ Content-Type: application/json
 }
 
 ### Update Scholarship
-PUT http://localhost:6000/api/v1/scholarships/update/66fd44ffd02847d1dde2d016
+PUT http://localhost:8000/api/v1/scholarships/update/66fd44ffd02847d1dde2d016
 Authorization: 123123
 Content-Type: application/json
 
@@ -35,5 +48,10 @@ Content-Type: application/json
 }
 
 
+<<<<<<< HEAD
 ### DELETE Scholarship
 DELETE http://localhost:6000/api/v1/scholarships/delete/67035e14e0bfd5f566a43ea3
+=======
+### delete scholarship
+    DELETE http://localhost:8000/api/v1/scholarships/delete/67035e14e0bfd5f566a43ea3
+>>>>>>> 92e6234 (fixing refresh and access Token naming)
